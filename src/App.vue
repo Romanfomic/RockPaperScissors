@@ -8,23 +8,37 @@
                     <div class="score-body">{{ score }}</div>
                 </div>
             </div>
-            <div class="game-btns">
+            <div class="game-btns" v-if="result === -3">
                 <input class="btn" id="rock-btn" @click="move('rock')" type="image" src="./src/assets/images/icon-rock.svg" />
                 <input class="btn" id="paper-btn" @click="move('paper')" type="image" src="./src/assets/images/icon-paper.svg" />
                 <input class="btn" id="scissors-btn" @click="move('scissors')" type="image" src="./src/assets/images/icon-scissors.svg" />
             </div>
             <div class="result" v-if="result !== -3">
-                <div class="player-move">{{ playerMove }}</div>
-                <div class="computer-move">{{ computerMove }}</div>
-                <div class="res" v-if="result === 1">
-                    Вы победили
+                <div class="move">
+                    <div class="move-title">ВЫ</div>
+                    <div v-if="playerMove === 'rock'"><img class="btn rock" src="./assets/images/icon-rock.svg"></div>
+                    <div v-if="playerMove === 'paper'"><img class="btn paper" src="./assets/images/icon-paper.svg"></div>
+                    <div v-if="playerMove === 'scissors'"><img class="btn scissors" src="./assets/images/icon-scissors.svg"></div>
                 </div>
-                <div class="res" v-else-if="result === 0">
-                    Ничья
+                <div class="res">
+                    <div class="res-body" v-if="result === 1">
+                        ВЫ ПОБЕДИЛИ
+                    </div>
+                    <div class="res-body" v-else-if="result === 0">
+                        НИЧЬЯ
+                    </div>
+                    <div class="res-body" v-else-if="result === -1">
+                        ВЫ ПРОИГРАЛИ
+                    </div>
+                    <button @click="restartGame" class="play-again">ИГРАТЬ СНОВА</button>
                 </div>
-                <div class="res" v-else-if="result === -1">
-                    Вы проиграли
+                <div class="move">
+                    <div class="move-title">КОМПЬЮТЕР</div>
+                    <div v-if="computerMove === 'rock'"><img class="btn rock" src="./assets/images/icon-rock.svg"></div>
+                    <div v-if="computerMove === 'paper'"><img class="btn paper" src="./assets/images/icon-paper.svg"></div>
+                    <div v-if="computerMove === 'scissors'"><img class="btn scissors" src="./assets/images/icon-scissors.svg"></div>
                 </div>
+
             </div>
 
         </div>
@@ -47,6 +61,9 @@
         if (result.value < -1) result.value = 1;
         if (result.value > 1) result.value = -1;
         score.value += result.value;
+    }
+    function restartGame() {
+        result.value = -3;
     }
 </script>
 
@@ -94,7 +111,66 @@
         width: 30px;
         height: 30px;
     }
-    #rock-btn { border: 10px solid red; }
-    #paper-btn { border: 10px solid dodgerblue; }
-    #scissors-btn { border: 10px solid coral; }
+    .rock{ border: 10px solid red; }
+    .paper{ border: 10px solid dodgerblue; }
+    .scissors{ border: 10px solid coral; }
+    #rock-btn {
+        border: 10px solid red;
+    }
+    #paper-btn {
+        border: 10px solid dodgerblue;
+        position: absolute;
+        right: 0;
+    }
+    #scissors-btn {
+        border: 10px solid coral;
+        position: absolute;
+        left: 35%;
+        bottom: 0;
+    }
+    .game-btns {
+        margin: 10px;
+        background-image: url("./assets/images/bg-triangle.svg");
+        background-repeat: no-repeat;
+        background-size: auto;
+        background-position: center;
+        height: 45vh;
+        width: 50vh;
+        position: relative;
+    }
+
+    .result {
+        display: flex;
+        align-items: center;
+    }
+    .res-body {
+        margin: 10px 30px;
+        color: white;
+        font-size: 3vh;
+    }
+    .res {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        margin: 2vh;
+    }
+    .res button {
+        border: none;
+        background-color: white;
+        border-radius: 10px;
+        height: 5vh;
+        width: 20vh;
+        color: #264174;
+    }
+    .res button:hover {
+        cursor: pointer;
+    }
+    .move-title {
+        color: white;
+    }
+    .move {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+    }
 </style>
